@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application | Work From Home</title>
+    <style>
+        :root { --primary: #3b82f6; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #60a5fa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: radial-gradient(circle at top right, #1e293b, #0f172a, #020617); 
+            background-size: 200% 200%;
+            animation: gradientBG 10s ease infinite;
+            color: var(--text); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+        }
+
+        /* Animations */
+        @keyframes gradientBG { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 5px var(--primary); } 50% { box-shadow: 0 0 20px var(--primary); } 100% { box-shadow: 0 0 5px var(--primary); } }
+
+        /* Pre-landing Section */
+        #pre-landing { 
+            text-align: center; 
+            max-width: 450px; 
+            padding: 40px; 
+            background: rgba(30, 41, 59, 0.6); 
+            backdrop-filter: blur(15px); 
+            border-radius: 30px; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            animation: fadeInUp 1s cubic-bezier(0.22, 1, 0.36, 1); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        #pre-landing h1 { font-size: 36px; margin-bottom: 20px; color: var(--accent); text-shadow: 0 0 15px rgba(96, 165, 250, 0.5); }
+        
+        /* Loader Section */
+        #loader-container { display: none; text-align: center; animation: fadeInUp 0.5s ease; }
+        .loader-circle { 
+            width: 120px; height: 120px; 
+            border: 4px solid rgba(255,255,255,0.05); 
+            border-top: 4px solid var(--primary); 
+            border-radius: 50%; 
+            animation: spin 0.8s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite; 
+            margin: 0 auto 20px; 
+            box-shadow: 0 0 15px var(--primary);
+        }
+        .percent-text { font-size: 28px; font-weight: bold; color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+
+        /* Main Form Container */
+        .container { 
+            display: none; 
+            background: rgba(30, 41, 59, 0.8); 
+            backdrop-filter: blur(20px);
+            width: 100%; 
+            max-width: 500px; 
+            padding: 35px; 
+            border-radius: 25px; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            animation: fadeInUp 0.8s ease-out; 
+        }
+        
+        .input-group { margin-bottom: 18px; text-align: left; }
+        label { display: block; margin-bottom: 8px; font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
+        input, select, textarea { 
+            width: 100%; padding: 14px; 
+            background: rgba(15, 23, 42, 0.8); 
+            border: 1px solid #334155; 
+            border-radius: 12px; 
+            color: white; 
+            font-size: 16px; 
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus, textarea:focus { 
+            border-color: var(--primary); 
+            outline: none; 
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+            background: #0f172a;
+        }
+        
+        /* Button Animation */
+        .btn { 
+            width: 100%; padding: 16px; 
+            background: linear-gradient(90deg, #3b82f6, #2563eb, #3b82f6);
+            background-size: 200% auto;
+            color: white; border: none; 
+            border-radius: 12px; font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.4s;
+            animation: shimmer 3s infinite linear;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        .btn:hover { 
+            transform: translateY(-3px) scale(1.02); 
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.6);
+        }
+        .btn:active { transform: scale(0.98); }
+
+        #success { 
+            display: none; text-align: center; 
+            color: #34d399; margin-top: 20px; 
+            padding: 15px; background: rgba(52, 211, 153, 0.1);
+            border-radius: 10px; border: 1px solid #34d399;
+            animation: fadeInUp 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div id="pre-landing">
+    <div style="font-size: 50px; margin-bottom: 10px;">🚀</div>
+    <h1>Job Application</h1>
+    <p>Kya aap bina kisi investment ke online paisa kamana chahte hain?<br><b>(Work from home opportunity)</b></p>
+    <button class="btn" style="margin-top:25px;" onclick="startLoading()">YES, I'M AGREE ✅</button>
+</div>
+
+<div id="loader-container">
+    <div class="loader-circle"></div>
+    <div class="percent-text" id="percent">0%</div>
+    <p style="color:#94a3b8; margin-top:10px; letter-spacing: 1px;">VERIFYING OPPORTUNITY...</p>
+</div>
+
+<div class="container" id="main-container">
+    <h2 style="text-align:center; margin-bottom:20px; letter-spacing: 1px;">REGISTER DETAILS</h2>
+    <form id="applyForm">
+        <div class="input-group"><label>Full Name</label><input type="text" name="Name" placeholder="Enter full name" required></div>
+        <div class="input-group"><label>Email Address</label><input type="email" name="Email" placeholder="Enter email" required></div>
+        <div class="input-group">
+            <label>Gender</label>
+            <select name="Gender" required>
+                <option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="input-group"><label>Date of Birth</label><input type="date" name="DOB" required></div>
+        <div class="input-group"><label>Full Address</label><textarea name="Address" rows="2" placeholder="Your address..." required></textarea></div>
+        <div class="input-group"><label>WhatsApp Number</label><input type="tel" name="Phone" placeholder="WhatsApp number" required></div>
+        <div class="input-group"><label>Education</label><input type="text" name="Education" placeholder="Your qualification" required></div>
+        <button type="submit" id="submitBtn" class="btn">SUBMIT APPLICATION</button>
+    </form>
+    <div id="success">✅ Application Sent Successfully! Hum aapse jaldi baat karenge.</div>
+</div>
+
+<script>
+    function startLoading() {
+        document.getElementById('pre-landing').style.transition = '0.5s';
+        document.getElementById('pre-landing').style.opacity = '0';
+        
+        setTimeout(() => {
+            document.getElementById('pre-landing').style.display = 'none';
+            document.getElementById('loader-container').style.display = 'block';
+            
+            let count = 0;
+            let counter = setInterval(() => {
+                // Thoda real feel ke liye random speed
+                count += Math.floor(Math.random() * 3) + 1; 
+                if(count >= 100) {
+                    count = 100;
+                    clearInterval(counter);
+                    setTimeout(showForm, 500);
+                }
+                document.getElementById('percent').innerText = count + "%";
+            }, 40); 
+        }, 500);
+    }
+
+    function showForm() {
+        document.getElementById('loader-container').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('loader-container').style.display = 'none';
+            document.getElementById('main-container').style.display = 'block';
+        }, 500);
+    }
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzifKSu9jo_pfrle2GECI3a8-4Ov2A-ZE4-O5p5GvW7I4chUcKcCWJaOy7szd6rgl95og/exec'
+    const form = document.getElementById('applyForm')
+    const btn = document.getElementById('submitBtn')
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.innerText = "SENDING DATA...";
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(res => {
+                document.getElementById('success').style.display = 'block';
+                form.style.display = 'none';
+                document.querySelector('h2').innerText = "SUCCESS!";
+            })
+            .catch(err => {
+                alert('Error! Please try again.');
+                btn.disabled = false;
+                btn.innerText = "SUBMIT APPLICATION";
+            });
+    });
+</script>
+</body>
+</html>
